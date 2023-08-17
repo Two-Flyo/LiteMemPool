@@ -15,7 +15,6 @@ void BenchmarkMalloc(size_t ntimes, size_t nworks, size_t rounds)
                 size_t begin1 = clock();
                 for (size_t i = 0; i < ntimes; i++)
                 {
-                    // v.push_back(malloc(16));
                     v.push_back(malloc((16 + i) % 8192 + 1));
                 }
                 size_t end1 = clock();
@@ -37,10 +36,8 @@ void BenchmarkMalloc(size_t ntimes, size_t nworks, size_t rounds)
     }
     double a = static_cast<double>(malloc_costtime.load()) / CLOCKS_PER_SEC * 1000;
     double b = static_cast<double>(free_costtime.load()) / CLOCKS_PER_SEC * 1000;
-    printf("%zu个线程并发执行%zu轮次，每轮次malloc %zu次: 花费：%lf ms\n",
-        nworks, rounds, ntimes, a);
-    printf("%zu个线程并发执行%zu轮次，每轮次free %zu次: 花费：%lf ms\n",
-        nworks, rounds, ntimes, b);
+    printf("%zu个线程并发执行%zu轮次，每轮次malloc %zu次: 花费：%lf ms\n", nworks, rounds, ntimes, a);
+    printf("%zu个线程并发执行%zu轮次，每轮次free %zu次: 花费：%lf ms\n", nworks, rounds, ntimes, b);
     printf("%zu个线程并发malloc&free %zu次，总计花费：%lf ms\n",
         nworks, nworks * rounds * ntimes, a + b);
 }
@@ -82,12 +79,9 @@ void BenchmarkConcurrentMalloc(size_t ntimes, size_t nworks, size_t rounds)
     }
     double a = static_cast<double>(malloc_costtime.load()) / CLOCKS_PER_SEC * 1000;
     double b = static_cast<double>(free_costtime.load()) / CLOCKS_PER_SEC * 1000;
-    printf("%zu个线程并发执行%zu轮次，每轮次concurrent alloc %zu次: 花费：%lf ms\n",
-        nworks, rounds, ntimes, a);
-    printf("%zu个线程并发执行%zu轮次，每轮次concurrent dealloc %zu次: 花费：%lf ms\n",
-        nworks, rounds, ntimes, b);
-    printf("%zu个线程并发concurrent alloc&dealloc %zu次，总计花费：%lf ms\n",
-        nworks, nworks * rounds * ntimes, a + b);
+    printf("%zu个线程并发执行%zu轮次，每轮次concurrent alloc %zu次: 花费：%lf ms\n", nworks, rounds, ntimes, a);
+    printf("%zu个线程并发执行%zu轮次，每轮次concurrent dealloc %zu次: 花费：%lf ms\n", nworks, rounds, ntimes, b);
+    printf("%zu个线程并发concurrent alloc&dealloc %zu次，总计花费：%lf ms\n", nworks, nworks * rounds * ntimes, a + b);
 }
 int main()
 {
